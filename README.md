@@ -1,0 +1,1 @@
+This is a small react application deployed in azure. Created for a job interview.
