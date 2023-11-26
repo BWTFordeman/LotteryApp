@@ -36,3 +36,142 @@
     transform: rotate(360deg);
   }
 }
+
+.Header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+.Header h1 {
+  font-size: 40px;
+}
+
+.HeaderTitle {
+  font-size: 24px;
+  margin: 0 auto; 
+}
+
+
+.HeaderImage {
+  width: 100px;
+  height: 100px;
+  margin-left: 20px;
+}
+
+.Main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 150px); 
+}
+
+.CenteredBox {
+  display: flex;
+  align-items: center;
+}
+
+.LeftBox {
+  display: flex;
+  flex-wrap: wrap; 
+  justify-content: flex-start; 
+  width: 500px; 
+}
+
+.Circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #3498db;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px; 
+  cursor: pointer;
+  font-weight: bold;
+  color: white;
+}
+
+.Circle.Selected {
+  background-color: #e74c3c;
+}
+
+.VerticalLine {
+  border-left: 1px solid #ccc;
+  height: 450px; 
+  margin: 0 20px;
+}
+
+.RightBox {
+  display: flex;
+  flex-direction: column; 
+  align-items: center; 
+  width: 450px; 
+}
+
+.RightBox h2 {
+  font-size: 30px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin: 5px;
+  font-weight: bold;
+}
+
+.SelectedCircles {
+  display: flex;
+  flex-wrap: wrap; 
+}
+
+.SelectedCircle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #e74c3c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
+  margin-bottom: 5px; 
+  cursor: pointer;
+  font-weight: bold;
+  color: white;
+}
+
+.Bought {
+  background-color: #ccc;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.NameInput {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.NameInput input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 200px;
+}
+
+.BuyButton {
+  padding: 10px 20px;
+  background-color: #4caf50; /* Green background color */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px; /* Adjust margin as needed */
+}
+
+.BuyButton:hover {
+  background-color: #45a049; 
+}
