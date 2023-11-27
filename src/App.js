@@ -7,7 +7,7 @@ function App() {
   const [userName, setUserName] = useState('');
   const [selectedCircles, setSelectedCircles] = useState([]);
   const [boughtCircles, setBoughtCircles] = useState([]);
-  const [myBoughtCIrcles, setMyBoughtCircles] = useState([]);
+  const [myBoughtTickets, setMyBoughtTickets] = useState([]);
 
   // Select ticket.
   const handleCircleClick = (circleNumber) => {
@@ -26,12 +26,10 @@ function App() {
   // Buy tickets that are selected.
   const handleBuyClick = () => {
     const nextFriday = getNextFriday();
-    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-    const nextFridayDate = nextFriday.toLocaleDateString('en-US', options)
-      .split('/')
-      .map((part, index) => (index === 0 ? part : part.padStart(2, '0')))
-      .join('-');
-    console.log(nextFridayDate);
+    const year = nextFriday.getFullYear();
+    const month = String(nextFriday.getMonth() + 1).padStart(2, '0');
+    const day = String(nextFriday.getDate()).padStart(2, '0');
+    const nextFridayDate = `${year}-${month}-${day}`;
 
     const selectedTickets = selectedCircles.map((circleNumber) => ({
       buyerName: userName,
@@ -58,6 +56,14 @@ function App() {
             ...prevBoughtCircles,
             ...selectedCircles,
           ]);
+          setMyBoughtTickets((prevMyBoughtCircles) => [
+            ...prevMyBoughtCircles,
+            ...selectedCircles,
+          ]);
+          setData((prevData) => [
+            ...prevData,
+            ...selectedTickets,
+          ]);
         } else {
           console.error("Failed to purchase tickets.");
         }
@@ -79,7 +85,7 @@ function App() {
     const matchingTicketNumbers = matchingTickets.map((item) => item.ticketNumber);
 
     // Update myBoughtCircles with matching ticket numbers
-    setMyBoughtCircles(matchingTicketNumbers);
+    setMyBoughtTickets(matchingTicketNumbers);
 
   }
 
@@ -121,7 +127,7 @@ function App() {
             {circles.map((circleNumber) => (
               <div
                 key={circleNumber}
-                className={`Circle ${selectedCircles.includes(circleNumber) ? 'Selected' : ''
+                className={`Ticket ${selectedCircles.includes(circleNumber) ? 'Selected' : ''
                   } ${boughtCircles.includes(circleNumber) ? 'Bought' : ''}`}
                 onClick={() => handleCircleClick(circleNumber)}
               >
@@ -132,13 +138,13 @@ function App() {
           <div className="VerticalLine"></div>
           <div className="RightBox">
             <h2>Selected tickets</h2>
-            <div className="SelectedCircles">
+            <div className="SelectedTickets">
               {selectedCircles
               .sort((a, b) => a - b)
               .map((selectedCircle) => (
                 <div
                   key={selectedCircle}
-                  className="SelectedCircle"
+                  className="SelectedTicket"
                   onClick={() => handleCircleClick(selectedCircle)}
                 >
                   {selectedCircle}
@@ -156,13 +162,13 @@ function App() {
                 Buy
               </button>
             </div>
-              <h2>Circles Bought</h2>
-              <div className="BoughtCircles">
-                {myBoughtCIrcles
+              <h2>Tickets Bought</h2>
+              <div className="BoughtTickets">
+                {myBoughtTickets
                 .sort((a, b) => a - b)
-                .map((boughtCircle) => (
-                  <div key={boughtCircle} className="BoughtCircle">
-                    {boughtCircle}
+                .map((boughtTicket) => (
+                  <div key={boughtTicket} className="BoughtTicket">
+                    {boughtTicket}
                   </div>
                 ))}
             </div>
@@ -176,13 +182,9 @@ function App() {
 function getNextFriday() {
   const today = new Date();
   const dayOfWeek = today.getDay();
-  console.log(dayOfWeek);
   const daysUntilNextFriday = dayOfWeek <= 5 ? 5 - dayOfWeek : 5 + (7 - dayOfWeek);
-  console.log(daysUntilNextFriday);
   const nextFriday = new Date(today);
-  console.log(nextFriday);
   nextFriday.setDate(today.getDate() + daysUntilNextFriday);
-  console.log(nextFriday);
 
   return nextFriday;
 }

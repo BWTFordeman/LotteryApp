@@ -79,7 +79,7 @@
   width: 500px; 
 }
 
-.Circle {
+.Ticket {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -93,7 +93,7 @@
   color: white;
 }
 
-.Circle.Selected {
+.Ticket.Selected {
   background-color: #e74c3c;
 }
 
@@ -124,12 +124,12 @@ li {
   font-weight: bold;
 }
 
-.SelectedCircles {
+.SelectedTickets {
   display: flex;
   flex-wrap: wrap; 
 }
 
-.SelectedCircle {
+.SelectedTicket {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -169,23 +169,23 @@ li {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin-left: 10px; /* Adjust margin as needed */
+  margin-left: 10px; 
 }
 
 .BuyButton:hover {
   background-color: #45a049; 
 }
 
-.BoughtCircles {
+.BoughtTickets {
   display: flex;
   flex-wrap: wrap; 
 }
 
-.BoughtCircle {
+.BoughtTicket {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: #ccc; /* Grey background color */
+  background-color: #ccc; 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -193,5 +193,5 @@ li {
   margin-bottom: 5px; 
   cursor: not-allowed;
   font-weight: bold;
-  color: white; /* Text color for the circle */
+  color: white; 
 }
