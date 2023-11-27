@@ -26,14 +26,10 @@ function App() {
   // Buy tickets that are selected.
   const handleBuyClick = () => {
     const nextFriday = getNextFriday();
-    const year = nextFriday.getFullYear();
-    const month = String(nextFriday.getMonth() + 1).padStart(2, '0');
-    const day = String(nextFriday.getDate()).padStart(2, '0');
-    const nextFridayDate = `${year}-${month}-${day}`;
 
     const currentlySelectedTickets = selectedTickets.map((ticketNumber) => ({
       buyerName: userName,
-      ticketDate: nextFridayDate,
+      ticketDate: nextFriday,
       ticketNumber: ticketNumber,
     }));
   
@@ -41,7 +37,7 @@ function App() {
       return;
     }
     // Send a POST request to your API
-    fetch("http://localhost:8080/tickets", {
+    fetch("https://lottery-spring-api-spring-app-20231127205737.azuremicroservices.io/tickets", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -88,7 +84,8 @@ function App() {
 
   // Get data of tickets bought:
   useEffect(() => {
-    const apiUrl = 'http://localhost:8080/tickets?ticketDate=2023-12-01';
+    const nextFriday = getNextFriday();
+    const apiUrl = 'https://lottery-spring-api-spring-app-20231127205737.azuremicroservices.io/tickets?ticketDate=' + nextFriday;
 
     fetch(apiUrl)
       .then((response) => response.json())
@@ -177,13 +174,20 @@ function App() {
 }
 
 function getNextFriday() {
+  // Get date:
   const today = new Date();
   const dayOfWeek = today.getDay();
   const daysUntilNextFriday = dayOfWeek <= 5 ? 5 - dayOfWeek : 5 + (7 - dayOfWeek);
   const nextFriday = new Date(today);
   nextFriday.setDate(today.getDate() + daysUntilNextFriday);
 
-  return nextFriday;
+  // Format date correctly:
+  const year = nextFriday.getFullYear();
+  const month = String(nextFriday.getMonth() + 1).padStart(2, '0');
+  const day = String(nextFriday.getDate()).padStart(2, '0');
+  const nextFridayDate = `${year}-${month}-${day}`;
+
+  return nextFridayDate;
 }
 
 export default App;
