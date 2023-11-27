@@ -5,21 +5,21 @@ function App() {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [userName, setUserName] = useState('');
-  const [selectedCircles, setSelectedCircles] = useState([]);
-  const [boughtCircles, setBoughtCircles] = useState([]);
+  const [selectedTickets, setSelectedTickets] = useState([]);
+  const [boughtTickets, setBoughtTickets] = useState([]);
   const [myBoughtTickets, setMyBoughtTickets] = useState([]);
 
   // Select ticket.
-  const handleCircleClick = (circleNumber) => {
-    // Check if the circle has been bought
-    if (boughtCircles.includes(circleNumber)) {
+  const handleTicketClick = (ticketNumber) => {
+    // Check if the ticket has been bought
+    if (boughtTickets.includes(ticketNumber)) {
       return;
     }
 
-    if (selectedCircles.includes(circleNumber)) {
-      setSelectedCircles(selectedCircles.filter((num) => num !== circleNumber));
+    if (selectedTickets.includes(ticketNumber)) {
+      setSelectedTickets(selectedTickets.filter((num) => num !== ticketNumber));
     } else {
-      setSelectedCircles([...selectedCircles, circleNumber]);
+      setSelectedTickets([...selectedTickets, ticketNumber]);
     }
   };
 
@@ -31,13 +31,13 @@ function App() {
     const day = String(nextFriday.getDate()).padStart(2, '0');
     const nextFridayDate = `${year}-${month}-${day}`;
 
-    const selectedTickets = selectedCircles.map((circleNumber) => ({
+    const currentlySelectedTickets = selectedTickets.map((ticketNumber) => ({
       buyerName: userName,
       ticketDate: nextFridayDate,
-      ticketNumber: circleNumber,
+      ticketNumber: ticketNumber,
     }));
   
-    if (selectedTickets.length === 0 || userName === "") {
+    if (currentlySelectedTickets.length === 0 || userName === "") {
       return;
     }
     // Send a POST request to your API
@@ -46,23 +46,23 @@ function App() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(selectedTickets),
+      body: JSON.stringify(currentlySelectedTickets),
     })
       .then((response) => {
         if (response.ok) {
           console.log("Tickets purchased successfully!");
-          setSelectedCircles([]);
-          setBoughtCircles((prevBoughtCircles) => [
-            ...prevBoughtCircles,
-            ...selectedCircles,
+          setSelectedTickets([]);
+          setBoughtTickets((prevBoughtTickets) => [
+            ...prevBoughtTickets,
+            ...selectedTickets,
           ]);
-          setMyBoughtTickets((prevMyBoughtCircles) => [
-            ...prevMyBoughtCircles,
-            ...selectedCircles,
+          setMyBoughtTickets((prevMyBoughtTickets) => [
+            ...prevMyBoughtTickets,
+            ...selectedTickets,
           ]);
           setData((prevData) => [
             ...prevData,
-            ...selectedTickets,
+            ...currentlySelectedTickets,
           ]);
         } else {
           console.error("Failed to purchase tickets.");
@@ -74,17 +74,14 @@ function App() {
   };
 
   const handleNameInputChange = (e) => {
-    setUserName(e.target.value);
-
     const newName = e.target.value;
+    setUserName(newName);
 
     // Filter the data array to get bought tickets with matching buyerName
     const matchingTickets = data.filter((item) => item.buyerName === newName);
 
     // Extract the ticket numbers from matchingTickets
     const matchingTicketNumbers = matchingTickets.map((item) => item.ticketNumber);
-
-    // Update myBoughtCircles with matching ticket numbers
     setMyBoughtTickets(matchingTicketNumbers);
 
   }
@@ -100,8 +97,8 @@ function App() {
         setIsLoading(false);
 
         // Extract the ticket numbers from the data array
-        const boughtCircles = data.map((item) => item.ticketNumber);
-        setBoughtCircles(boughtCircles);
+        const boughtTickets = data.map((item) => item.ticketNumber);
+        setBoughtTickets(boughtTickets);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
@@ -113,8 +110,8 @@ function App() {
     return <div>Loading...</div>;
   }
 
-  // Generate an array of circles with numbers 1-100
-  const circles = Array.from({ length: 100 }, (_, index) => index + 1);
+  // Generate an array of tickets with numbers 1-100
+  const tickets = Array.from({ length: 100 }, (_, index) => index + 1);
 
   return (
     <div className="App">
@@ -124,14 +121,14 @@ function App() {
       <div className="Main">
         <div className="CenteredBox">
           <div className="LeftBox">
-            {circles.map((circleNumber) => (
+            {tickets.map((ticketNumber) => (
               <div
-                key={circleNumber}
-                className={`Ticket ${selectedCircles.includes(circleNumber) ? 'Selected' : ''
-                  } ${boughtCircles.includes(circleNumber) ? 'Bought' : ''}`}
-                onClick={() => handleCircleClick(circleNumber)}
+                key={ticketNumber}
+                className={`Ticket ${selectedTickets.includes(ticketNumber) ? 'Selected' : ''
+                  } ${boughtTickets.includes(ticketNumber) ? 'Bought' : ''}`}
+                onClick={() => handleTicketClick(ticketNumber)}
               >
-                {circleNumber}
+                {ticketNumber}
               </div>
             ))}
           </div>
@@ -139,15 +136,15 @@ function App() {
           <div className="RightBox">
             <h2>Selected tickets</h2>
             <div className="SelectedTickets">
-              {selectedCircles
+              {selectedTickets
               .sort((a, b) => a - b)
-              .map((selectedCircle) => (
+              .map((selectedTicket) => (
                 <div
-                  key={selectedCircle}
+                  key={selectedTicket}
                   className="SelectedTicket"
-                  onClick={() => handleCircleClick(selectedCircle)}
+                  onClick={() => handleTicketClick(selectedTicket)}
                 >
-                  {selectedCircle}
+                  {selectedTicket}
                 </div>
               ))}
             </div>
