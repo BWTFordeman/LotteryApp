@@ -175,3 +175,23 @@ li {
 .BuyButton:hover {
   background-color: #45a049; 
 }
+
+.BoughtCircles {
+  display: flex;
+  flex-wrap: wrap; 
+}
+
+.BoughtCircle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ccc; /* Grey background color */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
+  margin-bottom: 5px; 
+  cursor: not-allowed;
+  font-weight: bold;
+  color: white; /* Text color for the circle */
+}
